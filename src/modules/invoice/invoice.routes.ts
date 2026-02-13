@@ -79,7 +79,7 @@ router.get("/", optionalAuth, async (req: AuthRequest, res: Response, next: Next
 
 router.get("/:id", optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.id as string, 10);
         if (isNaN(id)) throw new ValidationError("Invalid invoice ID");
 
         const invoice = await prisma.invoice.findUnique({
@@ -115,7 +115,7 @@ router.get("/:id", optionalAuth, async (req: AuthRequest, res: Response, next: N
 
 router.post("/:id/payments", optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.id as string, 10);
         if (isNaN(id)) throw new ValidationError("Invalid invoice ID");
 
         const parsed = addPaymentSchema.safeParse(req.body);
@@ -187,7 +187,7 @@ router.post("/:id/payments", optionalAuth, async (req: AuthRequest, res: Respons
 
 router.post("/:id/archive", optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.id as string, 10);
         if (isNaN(id)) throw new ValidationError("Invalid invoice ID");
 
         const invoice = await prisma.invoice.findUnique({ where: { id } });
@@ -216,7 +216,7 @@ router.post("/:id/archive", optionalAuth, async (req: AuthRequest, res: Response
 
 router.post("/:id/restore", optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.id as string, 10);
         if (isNaN(id)) throw new ValidationError("Invalid invoice ID");
 
         const invoice = await prisma.invoice.findUnique({ where: { id } });
@@ -245,7 +245,7 @@ router.post("/:id/restore", optionalAuth, async (req: AuthRequest, res: Response
 
 router.get("/:id/pdf", optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.id as string, 10);
         if (isNaN(id)) throw new ValidationError("Invalid invoice ID");
 
         const invoice = await prisma.invoice.findUnique({
