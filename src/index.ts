@@ -13,9 +13,17 @@ const app = express();
 
 // ── Security ────────────────────────────────────────────────────────────────
 app.use(helmet());
+
+// Handle CORS — support wildcard "*" or specific origin
+const corsOrigin = config.CORS_ORIGIN === "*"
+    ? true
+    : config.CORS_ORIGIN.startsWith("http")
+        ? config.CORS_ORIGIN
+        : `https://${config.CORS_ORIGIN}`;
+
 app.use(
     cors({
-        origin: config.CORS_ORIGIN,
+        origin: corsOrigin,
         credentials: true,
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
